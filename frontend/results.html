@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <meta charset="UTF-8">
+    <script src="bangs.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ query }} | nilch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        a {
+            color: white;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-mode {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        
+        header {
+            border-bottom: 1px solid #2a2a2a;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            transition: border-color 0.3s;
+            position: relative;
+        }
+        
+        body.light-mode header {
+            border-bottom-color: #e5e7eb;
+        }
+        
+        body.light-mode a {
+            color: purple;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            padding: 8px 14px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: transparent;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 0.8125rem;
+            transition: background-color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+        
+        .theme-toggle:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle {
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #a78bfa;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .logo {
+            color: #7c3aed;
+        }
+        
+        .search-form {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 10px 16px;
+            font-size: 14px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+        }
+        
+        .search-box:focus {
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-box {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border-color: #7c3aed;
+        }
+        
+        .search-button {
+            padding: 10px 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: #a78bfa;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, color 0.3s;
+        }
+        
+        .search-button:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-button {
+            background-color: #ffffff;
+            color: #7c3aed;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-button:hover {
+            background-color: #f3f4f6;
+        }
+        
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 48px;
+            margin-left: 60px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 24px;
+            padding: 16px 0;
+            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 24px;
+            transition: border-color 0.3s;
+        }
+        
+        body.light-mode .tabs {
+            border-bottom-color: #e5e7eb;
+        }
+        
+        .infobox {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+            transition: background-color 0.3s, border-color 0.3s;
+            display: none;
+        }
+        
+        body.light-mode .infobox {
+            background-color: #f9fafb;
+            border-color: #e5e7eb;
+        }
+        
+        .infobox-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #a78bfa;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .infobox-title {
+            color: #7c3aed;
+        }
+        
+        .infobox-content {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .infobox-content {
+            color: #374151;
+        }
+        
+        .infobox-item {
+            margin-bottom: 12px;
+        }
+        
+        .infobox-label {
+            font-weight: 500;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        body.light-mode .infobox-label {
+            color: #6b7280;
+        }
+        
+        .tab {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9375rem;
+            padding-bottom: 12px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s;
+        }
+        
+        .tab:hover {
+            color: #d1d5db;
+        }
+        
+        .tab.active {
+            color: #a78bfa;
+            border-bottom-color: #a78bfa;
+        }
+        
+        body.light-mode .tab.active {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+        
+        .result {
+            margin-bottom: 32px;
+        }
+        
+        .result-title {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+        
+        .result-title a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+        
+        body.light-mode .result-title a {
+            color: #7c3aed;
+        }
+        
+        .result-url {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+        }
+        
+        .result-snippet {
+            color: #d1d5db;
+            font-size: 0.9375rem;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .result-snippet {
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .theme-toggle {
+                display: none;
+            }
+            main {
+                margin-left: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">nilch</a>
+        <form class="search-form" onsubmit="return handleSearch(event)">
+            <input type="text" class="search-box" name="q" id="searchInput" placeholder="Search...">
+            <button type="submit" class="search-button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
+        </form>
+        <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+    </header>
+    
+    <main>
+        <div class="tabs">
+            <a href="#" class="tab active">Web</a>
+            <a href="images.html" class="tab" id="imagesTab">Images</a>
+        </div>
+        
+        <div class="infobox" id="infobox">
+            <div class="infobox-title" id="infobox-title"></div>
+            <div class="infobox-content">
+                <!--<div class="infobox-item">
+                        <div class="infobox-label">Type</div>
+                        <div>Sample Category</div>
+                </div>-->
+            </div>
+        </div>
+        <div id="results">
+            <!-- <div class="result">
+                <div class="result-title">
+                    <a href="#">Example Search Result Title</a>
+                </div>
+                <div class="result-url">https://example.com/page</div>
+                <div class="result-snippet">
+                    This is the description part
+                </div>
+            </div> -->
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        const encodedQuery = encodeURIComponent(query);
+        
+        async function getUrlContents(url) {
+            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+            const response = await fetch(proxyUrl + encodeURIComponent(url));
+            return await response.text();
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                button.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                button.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        function matchBang(query) {
+            const bangMatch = query.match(/^!([a-zA-Z]+)(?:\s(.*))?$/);
+            if (bangMatch) {
+                const cmd = bangMatch[1];
+                const search = bangMatch[2] || "";
+                const result = bangs.find(item => item.t === cmd);
+                if (result !== undefined) {
+                    if (search == "") {
+                        window.location.href = "https://" + result.d;
+                    } else {
+                        const querySymbol = "{" + "{" + "{s}" + "}" + "}";
+                        window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                if (matchBang(query)) {
+                    return false;
+                }
+                window.location.href = '?q=' + encodeURIComponent(query);
+            }
+            return false;
+        }
+        
+        // Wrap all async code in an IIFE
+        (async function() {
+            try {
+                const resultsResponse = await getUrlContents("https://unmappedstack.pythonanywhere.com/api/search?q=" + encodedQuery);
+                if (resultsResponse == "noquery") {
+                    document.getElementById("results").innerHTML = '<p>There was an error, please try again: noquery</p>';
+                    return;
+                } else if (resultsResponse == "noresults") {
+                    document.getElementById("results").innerHTML = '<p>There was an error, please try again: noresults</p>';
+                    return;
+                }
+                const resultsData = JSON.parse(resultsResponse); // Parse the JSON string
+                const searchResults = resultsData.results;
+                const infoboxData = (resultsData.infobox == "null") ? null : resultsData.infobox;
+                const results = document.getElementById("results");
+                const infobox = document.getElementById("infobox");
+                
+                for (let result = 0; result < searchResults.length; result++) {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'result';
+                    
+                    // Construct title
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'result-title';
+                    const link = document.createElement('a');
+                    link.href = searchResults[result].url;
+                    link.textContent = searchResults[result].title;
+                    titleDiv.appendChild(link);
+                    
+                    // Construct URL
+                    const urlDiv = document.createElement('div');
+                    urlDiv.className = 'result-url';
+                    urlDiv.textContent = searchResults[result].url;
+                    
+                    // Construct description
+                    const snippetDiv = document.createElement('div');
+                    snippetDiv.className = 'result-snippet';
+                    snippetDiv.innerHTML = searchResults[result].description;
+                    
+                    // And append
+                    resultDiv.appendChild(titleDiv);
+                    resultDiv.appendChild(urlDiv);
+                    resultDiv.appendChild(snippetDiv);
+                    results.appendChild(resultDiv);
+                }
+                
+                if (infoboxData) {
+                    infobox.style.display = "block";
+                    const title = document.getElementById("infobox-title");
+                    
+                    if (infoboxData.infotype == "calc") {
+                        title.innerHTML = "Calculator";
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = "infobox-item";
+                        const labelDiv = document.createElement('div');
+                        labelDiv.className = "infobox-label";
+                        labelDiv.innerHTML = infoboxData.equ + " =";
+                        itemDiv.appendChild(labelDiv);
+                        const answerDiv = document.createElement('div');
+                        answerDiv.innerHTML = "<h2>" + infoboxData.result + "</h2>";
+                        itemDiv.appendChild(answerDiv);
+                        infobox.appendChild(itemDiv);
+                    } else if (infoboxData.infotype == "definition") {
+                        title.innerHTML = "Dictionary";
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = "infobox-item";
+                        const wordDiv = document.createElement('div');
+                        wordDiv.innerHTML = "<h2>" + infoboxData.word + "</h2>";
+                        itemDiv.appendChild(wordDiv);
+                        const typeDiv = document.createElement('div');
+                        typeDiv.className = "infobox-label";
+                        typeDiv.innerHTML = infoboxData.type;
+                        itemDiv.appendChild(typeDiv);
+                        const definitionDiv = document.createElement('div');
+                        definitionDiv.innerHTML = infoboxData.definition;
+                        itemDiv.appendChild(definitionDiv);
+                        const linkDiv = document.createElement('b');
+                        linkDiv.innerHTML = "<br>There may be more definitions, see them all at <a href='" + infoboxData.url + "'>Wiktionary</a>";
+                        itemDiv.appendChild(linkDiv);
+                        infobox.appendChild(itemDiv);
+                    } else if (infoboxData.infotype == "wikipedia") {
+                        title.innerHTML = infoboxData.title;
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = "infobox-item";
+                        const infoDiv = document.createElement('div');
+                        infoDiv.innerHTML = infoboxData.info;
+                        itemDiv.appendChild(infoDiv);
+                        const linkDiv = document.createElement('div');
+                        linkDiv.style.marginTop = "10px";
+                        const link = document.createElement('a');
+                        link.href = infoboxData.url;
+                        link.textContent = "Read more on Wikipedia";
+                        link.target = "_blank";
+                        linkDiv.appendChild(link);
+                        itemDiv.appendChild(linkDiv);
+                        infobox.appendChild(itemDiv);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading search results:', error);
+                document.getElementById("results").innerHTML = '<p>Error loading search results. Please try again.<br>' + error + '</p>';
+            }
+        })();
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            document.querySelector('.theme-toggle').textContent = 'Dark Mode';
+        }
+        
+        if (query) {
+            document.title = query + " | nilch";
+            document.getElementById('searchInput').value = query;
+            document.getElementById('imagesTab').href = 'images.html?q=' + encodeURIComponent(query);
+        }
+        
+        if (document.getElementById('searchInput').value.trim()) {
+            matchBang(query);
+        }
+    </script>
+</body>

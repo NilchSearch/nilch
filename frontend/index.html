@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <script src="bangs.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nilch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 15vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-mode {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: transparent;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle {
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+            color: #a78bfa;
+            margin-bottom: 40px;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .logo {
+            color: #7c3aed;
+        }
+        
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 16px 20px;
+            font-size: 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 8px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+        }
+        
+        .search-box:focus {
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-box {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border-color: #7c3aed;
+        }
+        
+        .search-button {
+            padding: 16px 24px;
+            font-size: 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 8px;
+            background-color: #1a1a1a;
+            color: #a78bfa;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, color 0.3s;
+        }
+        
+        .search-button:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-button {
+            background-color: #ffffff;
+            color: #7c3aed;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-button:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .tagline {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 16px;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .tagline {
+            color: #6b7280;
+        }
+
+        /* Footer Container */
+        .footer-links {
+            position: fixed;
+            bottom: 24px;
+            display: flex;
+            gap: 20px;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a {
+            color: #6b7280; /* Matches your tagline color */
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: #a78bfa; /* Matches your logo color */
+        }
+        
+        /* Light Mode Footer colors */
+        body.light-mode .footer-links a:hover {
+            color: #7c3aed;
+        }
+        
+        /* Mobile: Hide 'Set as Default' */
+        .desktop-only {
+            display: none;
+        }
+        
+        /* Desktop: Show 'Set as Default' */
+        @media (min-width: 768px) {
+            .desktop-only {
+                display: inline;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+    <div class="logo">nilch</div>
+    <div class="search-container">
+        <form class="search-form" onsubmit="return handleSearch(event)">
+            <input type="text" class="search-box" placeholder="Search..." id="searchInput">
+            <button type="submit" class="search-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
+        </form>
+        <div class="tagline">No AI, no ads, just search.</div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                button.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                button.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            document.querySelector('.theme-toggle').textContent = 'Dark Mode';
+        }
+        
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                const bangMatch = query.match(/^!([a-zA-Z]+)(?:\s(.*))?$/);
+                if (bangMatch) {
+                    const cmd = bangMatch[1];
+                    const search = bangMatch[2] || "";
+                    const result = bangs.find(item => item.t === cmd);
+                    if (result !== undefined) {
+                        if (search == "") {
+                            window.location.href = "https://" + result.d;
+                        } else {
+                            const querySymbol = "{" + "{" + "{s}" + "}" + "}";
+                            window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
+                        }
+                        return false;
+                    }
+                }
+                window.location.href = 'results.html?q=' + encodeURIComponent(query);
+            }
+            return false;
+        }
+    </script>
+    <div class="footer-links">
+        <a href="https://buymeacoffee.com/nilch">Donate</a>
+        <a href="about.html">About</a>
+        <a href="default.html" class="desktop-only">Set as Default</a>
+    </div>
+</body>
+</html>

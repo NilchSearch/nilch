@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | nilch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e7eb; /* Slightly brighter text for readability */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 80px 20px; /* Top padding for space */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-mode {
+            background-color: #ffffff;
+            color: #374151;
+        }
+        
+        /* Theme Toggle Styling */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: transparent;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle {
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+
+        /* Content Container */
+        .content-wrapper {
+            width: 100%;
+            max-width: 650px; /* Optimal reading width */
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        body.light-mode .back-link {
+            color: #7c3aed;
+        }
+
+        .logo-small {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+            color: #a78bfa;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        body.light-mode .logo-small {
+            color: #7c3aed;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        body.light-mode h1 {
+            color: #1a1a1a;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            margin-top: 60px;
+            display: flex;
+            gap: 20px;
+            font-size: 0.875rem;
+        }
+
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #a78bfa;
+        }
+
+        body.light-mode .footer-links a:hover {
+            color: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+
+    <div class="content-wrapper">
+        <a href="/" class="back-link">← Back to Search</a>
+        
+        <h1>About nilch</h1>
+        
+        <p>nilch aims to be the perfect search engine through simplicity. The biggest feature is a lack thereof. Just search like it's 2015.</p>
+
+        <p>A major issue with G**gle, upon other huge search engines, is the AI forced down your throat. It's bad for the environment, slows down the page loading, and half the time isn't even correct. So nilch gets rid of that, naturally.</p>
+
+        <p>Additionally, pretty much all search engines are run by companies and corporations. That's stupid, where's your free information spirit? I run nilch myself in a not-for-profit style because information should be easy, free, and convenient. I try to run nilch on donations alone and plan to for as long as I can. This means I don't need ads or payment from you... although I may occasionally have a little banner begging for donations, Wikipedia style :P</p>
+
+        <p>Finally, nilch doesn't really track you. No cookies, no data taken, no information about you. Except unlike D*ckD*ckGo or whatever, privacy is a given with nilch, not the biggest selling point.</p>
+
+        <div class="footer-links">
+            <a href="https://buymeacoffee.com/nilch">Donate</a>
+            <a href="default.html">Set as Default</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                button.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                button.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            document.querySelector('.theme-toggle').textContent = 'Dark Mode';
+        }
+    </script>
+</body>
+</html>

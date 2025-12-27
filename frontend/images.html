@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <script src="bangs.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ query }} | nilch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-mode {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        
+        header {
+            border-bottom: 1px solid #2a2a2a;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            transition: border-color 0.3s;
+            position: relative;
+        }
+        
+        body.light-mode header {
+            border-bottom-color: #e5e7eb;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            padding: 8px 14px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: transparent;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 0.8125rem;
+            transition: background-color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+        
+        .theme-toggle:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle {
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #a78bfa;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .logo {
+            color: #7c3aed;
+        }
+        
+        .search-form {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 10px 16px;
+            font-size: 14px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            outline: none;
+            transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+        }
+        
+        .search-box:focus {
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-box {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border-color: #7c3aed;
+        }
+        
+        .search-button {
+            padding: 10px 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: #a78bfa;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, color 0.3s;
+        }
+        
+        .search-button:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-button {
+            background-color: #ffffff;
+            color: #7c3aed;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .search-button:hover {
+            background-color: #f3f4f6;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 48px;
+            margin-left: 60px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 24px;
+            padding: 16px 0;
+            border-bottom: 1px solid #2a2a2a;
+            margin-bottom: 24px;
+            transition: border-color 0.3s;
+        }
+        
+        body.light-mode .tabs {
+            border-bottom-color: #e5e7eb;
+        }
+        
+        .tab {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9375rem;
+            padding-bottom: 12px;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s;
+        }
+        
+        .tab:hover {
+            color: #d1d5db;
+        }
+        
+        .tab.active {
+            color: #a78bfa;
+            border-bottom-color: #a78bfa;
+        }
+        
+        body.light-mode .tab.active {
+            color: #7c3aed;
+            border-bottom-color: #7c3aed;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+        
+        .image-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .image-wrapper {
+            width: 100%;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+        
+        body.light-mode .image-wrapper {
+            background-color: #f3f4f6;
+        }
+        
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-title {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .image-title {
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .theme-toggle {
+                display: none;
+            }
+            main {
+                margin-left: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">nilch</a>
+        <form class="search-form" onsubmit="return handleSearch(event)">
+            <input type="text" class="search-box" name="q" id="searchInput" placeholder="Search...">
+            <button type="submit" class="search-button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
+        </form>
+        <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+    </header>
+    
+    <main>
+        <div class="tabs">
+            <a href="results.html" class="tab" id="webTab">Web</a>
+            <a href="#" class="tab active">Images</a>
+        </div>
+        
+        <div class="image-grid" id="results">
+            <!--<div class="image-item">
+                <a href="#">
+                    <div class="image-wrapper">
+                        <img src="https://placehold.co/300x200" alt="Placeholder">
+                    </div>
+                </a>
+            </div>-->
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        const encodedQuery = encodeURIComponent(query);
+        const results = document.getElementById("results");
+        
+        async function getUrlContents(url) {
+            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+            const response = await fetch(proxyUrl + encodeURIComponent(url));
+            return await response.text();
+        }
+        
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                button.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                button.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                const bangMatch = query.match(/^!([a-zA-Z]+)(?:\s(.*))?$/);
+                if (bangMatch) {
+                    const cmd = bangMatch[1];
+                    const search = bangMatch[2] || "";
+                    const result = bangs.find(item => item.t === cmd);
+                    if (result !== undefined) {
+                        if (search == "") {
+                            window.location.href = "https://" + result.d;
+                        } else {
+                            const querySymbol = "{" + "{" + "{s}" + "}" + "}";
+                            window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
+                        }
+                        return false;
+                    }
+                }
+                window.location.href = '?q=' + encodeURIComponent(query);
+            }
+            return false;
+        }
+        
+        // Wrap async code in IIFE
+        (async function() {
+            try {
+                const response = await getUrlContents("https://unmappedstack.pythonanywhere.com/api/images?q=" + encodedQuery);
+                if (resultsResponse == "noquery") {
+                    document.getElementById("results").innerHTML = '<p>There was an error, please try again: noquery</p>';
+                    return;
+                } else if (resultsResponse == "noresults") {
+                    document.getElementById("results").innerHTML = '<p>There was an error, please try again: noresults</p>';
+                    return;
+                }
+                const searchResults = JSON.parse(response);
+                
+                for (let result = 0; result < searchResults.length; result++) {
+                    const imageItem = document.createElement('div');
+                    imageItem.className = 'image-item';
+                    const link = document.createElement('a');
+                    link.href = searchResults[result].url;
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = 'image-wrapper';
+                    const img = document.createElement('img');
+                    img.src = searchResults[result].img;
+                    img.onerror = function() {
+                        this.closest(".image-item").remove();
+                    };
+                    imageWrapper.appendChild(img);
+                    link.appendChild(imageWrapper);
+                    imageItem.appendChild(link);
+                    const targetElement = document.getElementById('results');
+                    targetElement.appendChild(imageItem);
+                }
+            } catch (error) {
+                console.error('Error loading images:', error);
+                results.innerHTML = '<p>Error loading images. Please try again.</p>';
+            }
+        })();
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            document.querySelector('.theme-toggle').textContent = 'Dark Mode';
+        }
+        
+        if (query) {
+            document.title = query + " | nilch";
+            document.getElementById('searchInput').value = query;
+            document.getElementById('webTab').href = 'results.html?q=' + encodeURIComponent(query);
+        }
+    </script>
+</body>
+</html>

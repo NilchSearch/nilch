@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set as default | nilch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e7eb; /* Slightly brighter text for readability */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 80px 20px; /* Top padding for space */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-mode {
+            background-color: #ffffff;
+            color: #374151;
+        }
+        
+        /* Theme Toggle Styling */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            border: 2px solid #4c1d95;
+            border-radius: 6px;
+            background-color: transparent;
+            color: #a78bfa;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        .theme-toggle:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .theme-toggle {
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+
+        /* Content Container */
+        .content-wrapper {
+            width: 100%;
+            max-width: 650px; /* Optimal reading width */
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        body.light-mode .back-link {
+            color: #7c3aed;
+        }
+
+        .logo-small {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+            color: #a78bfa;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        body.light-mode .logo-small {
+            color: #7c3aed;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        body.light-mode h1 {
+            color: #1a1a1a;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            margin-top: 60px;
+            display: flex;
+            gap: 20px;
+            font-size: 0.875rem;
+        }
+
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #a78bfa;
+        }
+
+        body.light-mode .footer-links a:hover {
+            color: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+
+    <div class="content-wrapper">
+        <a href="/" class="back-link">← Back to Search</a>
+        
+        <h1>Set nilch as your default search engine</h1>
+        <p>Most browsers on mobile currently do not let you set a default search engine besides a few pre-set options, so this is mostly for desktop. However, you can set nilch as your default search engine on Firefox mobile.</p>
+        <h2>Google Chrome (and other Chromium-based browsers)</h2>
+        <ul>
+            <li>Enter your browser settings</li>
+            <li>Go to the <b>Search engine</b> section (you may need to first press the three lines in the top left corner)</li>
+            <li>Click <b>Manage search engines and site search</b></li>
+            <li>Scroll down to <b>Site search</b> and click <b>Add</b></li>
+            <li>Type <b>nilch</b> in the <b>name</b> and <b>shortcut</b> fields</li>
+            <li>Type <b>https://nilch.org/results?q=%s</b> in the <b>URL</b> field and click <b>Add</b></li>
+            <li>Click the three dots symbol next to the <b>nilch</b> item in the <b>Site search</b> list</li>
+            <li>Click <b>Make default</b>
+        </ul>
+        <h2>Firefox</h2>
+        <ul>
+            <li>Enter your browser settings</li>
+            <li>Go to the <b>Search</b> section (it may just be a magnifying glass icon)</li>
+            <li>Scroll down to <b>Search Shortcuts</b> and click <b>Add</b></li>
+            <li>Type <b>nilch</b> in the <b>Search engine name</b> field</li>
+            <li>Type <b>https://nilch.org/results?q=%s</b> in the <b>URL</b> field and click <b>Save Engine</b></li>
+            <li>Scroll back up to the start of the <b>Search</b> section, click the <b>Default Search Engine</b> dropdown (it will likely currently say <b>Google</b>, and click <b>nilch</b></li>
+        </ul>
+        <div class="footer-links">
+            <a href="https://buymeacoffee.com/nilch">Donate</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const button = document.querySelector('.theme-toggle');
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                button.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                button.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            document.querySelector('.theme-toggle').textContent = 'Dark Mode';
+        }
+    </script>
+</body>
+</html>
