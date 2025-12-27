@@ -10,6 +10,10 @@ You can find all frontend sources in `frontend/` and backend sources in `backend
 
 You may need to tinker a little bit to set up your own instance, however I intend to very soon improve it to be easier.
 
+## Donations
+
+nilch runs in a not-for-profit-style manner. This means that it's able to operate without selling your data, serving you ads, or charging you money. Unfortunately, the project is not very cheap to maintain, so your donations would be very appreciated to keep the project lasting longer! Donate [here](https://buymeacoffee.com/nilch).
+
 ## License
 
 This project is under the Mozilla Public License 2.0. See the `LICENSE` file for more information.
