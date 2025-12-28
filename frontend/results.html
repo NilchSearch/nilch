@@ -350,6 +350,8 @@
         <div class="tabs">
             <a href="#" class="tab active">Web</a>
             <a href="images.html" class="tab" id="imagesTab">Images</a>
+            <a href="videos.html" class="tab" id="videosTab">Videos</a>
+            <a href="https://duck.com/?iaxm=maps" class="tab" id="mapsTab">Maps</a>
         </div>
         <div class="safe-container">
             <button class="safe-toggle" onclick="toggleSafeSearch()">Safe Search: On</button>
@@ -565,6 +567,8 @@
             document.title = query + " | nilch";
             document.getElementById('searchInput').value = query;
             document.getElementById('imagesTab').href = 'images.html?q=' + encodeURIComponent(query);
+            document.getElementById('videosTab').href = 'videos.html?q=' + encodeURIComponent(query);
+            document.getElementById('mapsTab').href = 'https://duck.com/?iaxm=maps&q=' + encodeURIComponent(query);
         }
         
         if (document.getElementById('searchInput').value.trim()) {

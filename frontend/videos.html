@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.png">
-    <script src="bangs.js"></script>
     <meta charset="UTF-8">
+    <script src="bangs.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ query }} | nilch</title>
     <style>
@@ -13,6 +13,70 @@
             box-sizing: border-box;
         }
         
+        a {
+            color: white;
+        }
+
+        .video-card {
+            display: flex;
+            gap: 16px;
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .video-card:hover {
+            background-color: #2a2a2a;
+            border-color: #7c3aed;
+        }
+        
+        body.light-mode .video-card {
+            background-color: #f9fafb;
+            border-color: #e5e7eb;
+        }
+        
+        body.light-mode .video-card:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .video-thumb {
+            width: 160px;
+            height: 90px;
+            border-radius: 6px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .video-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .video-title {
+            font-size: 1.1rem;
+            color: #a78bfa;
+            margin-bottom: 6px;
+        }
+        
+        body.light-mode .video-title {
+            color: #7c3aed;
+        }
+        
+        .video-meta {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+        
+        body.light-mode .video-meta {
+            color: #6b7280;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             background-color: #0a0a0a;
@@ -40,6 +104,10 @@
             border-bottom-color: #e5e7eb;
         }
         
+        body.light-mode a {
+            color: purple;
+        }
+
         .theme-toggle {
             position: absolute;
             right: 20px;
@@ -136,7 +204,7 @@
         }
         
         main {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 20px 48px;
             margin-left: 60px;
@@ -153,6 +221,58 @@
         
         body.light-mode .tabs {
             border-bottom-color: #e5e7eb;
+        }
+        
+        .infobox {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+            transition: background-color 0.3s, border-color 0.3s;
+            display: none;
+        }
+        
+        body.light-mode .infobox {
+            background-color: #f9fafb;
+            border-color: #e5e7eb;
+        }
+        
+        .infobox-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #a78bfa;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .infobox-title {
+            color: #7c3aed;
+        }
+        
+        .infobox-content {
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .infobox-content {
+            color: #374151;
+        }
+        
+        .infobox-item {
+            margin-bottom: 12px;
+        }
+        
+        .infobox-label {
+            font-weight: 500;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        body.light-mode .infobox-label {
+            color: #6b7280;
         }
         
         .tab {
@@ -178,44 +298,57 @@
             border-bottom-color: #7c3aed;
         }
         
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 48px;
+        .result {
+            margin-bottom: 32px;
         }
         
-        .image-item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .result-title {
+            font-size: 1.25rem;
+            margin-bottom: 4px;
         }
         
-        .image-wrapper {
-            width: 100%;
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: background-color 0.3s;
-        }
-        
-        body.light-mode .image-wrapper {
-            background-color: #f3f4f6;
-        }
-        
-        .image-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        .image-title {
-            font-size: 0.875rem;
-            color: #d1d5db;
+        .result-title a {
+            color: #a78bfa;
+            text-decoration: none;
             transition: color 0.3s;
         }
         
-        body.light-mode .image-title {
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+        
+        body.light-mode .result-title a {
+            color: #7c3aed;
+        }
+        
+        .result-url {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-favicon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+        
+        .result-date {
+            color: #6b7280;
+            font-size: 0.8125rem;
+            margin-bottom: 4px;
+        }
+        
+        .result-snippet {
+            color: #d1d5db;
+            font-size: 0.9375rem;
+            transition: color 0.3s;
+        }
+        
+        body.light-mode .result-snippet {
             color: #374151;
         }
 
@@ -276,24 +409,14 @@
     <main>
         <div class="tabs">
             <a href="results.html" class="tab" id="webTab">Web</a>
-            <a href="#" class="tab active">Images</a>
-            <a href="videos.html" class="tab" id="videosTab">Videos</a>
+            <a href="images.html" class="tab" id="imagesTab">Images</a>
+            <a href="#" class="tab active">Videos</a>
             <a href="https://duck.com/?iaxm=maps" class="tab" id="mapsTab">Maps</a>
         </div>
-        
         <div class="safe-container">
             <button class="safe-toggle" onclick="toggleSafeSearch()">Safe Search: On</button>
         </div>
-
-        <div class="image-grid" id="results">
-            <!--<div class="image-item">
-                <a href="#">
-                    <div class="image-wrapper">
-                        <img src="https://placehold.co/300x200" alt="Placeholder">
-                    </div>
-                </a>
-            </div>-->
-        </div>
+        <div id="videoResults"></div>
     </main>
 
     <script>
@@ -301,7 +424,6 @@
         const safeSearch = urlParams.get('safe') || "strict";
         const query = urlParams.get('q');
         const encodedQuery = encodeURIComponent(query);
-        const results = document.getElementById("results");
         
         async function getUrlContents(url) {
             const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
@@ -323,66 +445,101 @@
             }
         }
         
+        function matchBang(query) {
+            const bangMatch = query.match(/^!([a-zA-Z]+)(?:\s(.*))?$/);
+            if (bangMatch) {
+                const cmd = bangMatch[1];
+                const search = bangMatch[2] || "";
+                const result = bangs.find(item => item.t === cmd);
+                if (result !== undefined) {
+                    if (search == "") {
+                        window.location.href = "https://" + result.d;
+                    } else {
+                        const querySymbol = "{" + "{" + "{s}" + "}" + "}";
+                        window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+        
         function handleSearch(e) {
             e.preventDefault();
             const query = document.getElementById('searchInput').value.trim();
             if (query) {
-                const bangMatch = query.match(/^!([a-zA-Z]+)(?:\s(.*))?$/);
-                if (bangMatch) {
-                    const cmd = bangMatch[1];
-                    const search = bangMatch[2] || "";
-                    const result = bangs.find(item => item.t === cmd);
-                    if (result !== undefined) {
-                        if (search == "") {
-                            window.location.href = "https://" + result.d;
-                        } else {
-                            const querySymbol = "{" + "{" + "{s}" + "}" + "}";
-                            window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
-                        }
-                        return false;
-                    }
+                if (matchBang(query)) {
+                    return false;
                 }
                 window.location.href = '?q=' + encodeURIComponent(query);
             }
             return false;
         }
         
-        // Wrap async code in IIFE
+        // Wrap all async code in an IIFE
         (async function() {
             try {
-                const url = "https://unmappedstack.pythonanywhere.com/api/images?q=" + encodedQuery
+                const url = "https://unmappedstack.pythonanywhere.com/api/search?videos=true&q=" + encodedQuery
                                 + "&safe=" + safeSearch;
-                const response = await getUrlContents(url);
-                if (response == "noquery") {
+                const resultsResponse = await getUrlContents(url);
+                if (resultsResponse == "noquery") {
                     document.getElementById("results").innerHTML = '<p>There was an error, please try again: noquery</p>';
                     return;
-                } else if (response == "noresults") {
+                } else if (resultsResponse == "noresults") {
                     document.getElementById("results").innerHTML = '<p>There was an error, please try again: noresults</p>';
                     return;
                 }
-                const searchResults = JSON.parse(response);
+                const resultsData = JSON.parse(resultsResponse).results; // Parse the JSON string
+                const results = document.getElementById("results");
                 
-                for (let result = 0; result < searchResults.length; result++) {
-                    const imageItem = document.createElement('div');
-                    imageItem.className = 'image-item';
-                    const link = document.createElement('a');
-                    link.href = searchResults[result].url;
-                    const imageWrapper = document.createElement('div');
-                    imageWrapper.className = 'image-wrapper';
-                    const img = document.createElement('img');
-                    img.src = searchResults[result].img;
-                    img.onerror = function() {
-                        this.closest(".image-item").remove();
-                    };
-                    imageWrapper.appendChild(img);
-                    link.appendChild(imageWrapper);
-                    imageItem.appendChild(link);
-                    const targetElement = document.getElementById('results');
-                    targetElement.appendChild(imageItem);
-                }
+                const container = document.getElementById("videoResults");
+                container.innerHTML = "";
+               
+                resultsData.forEach(video => {
+                    const card = document.createElement("a");
+                    card.className = "video-card";
+                    card.href = video.url || "#";
+                    card.target = "_blank";
+                
+                    // Thumbnail (safe fallback)
+                    const thumbSrc = video?.thumbnail?.src 
+                        ? video.thumbnail.src 
+                        : "data:image/svg+xml;charset=UTF-8," +
+                          encodeURIComponent(`<svg width='160' height='90' xmlns='http://www.w3.org/2000/svg'>
+                              <rect width='160' height='90' fill='#333'/>
+                              <text x='50%' y='50%' fill='#aaa' font-size='14' text-anchor='middle' dy='.3em'>No Thumbnail</text>
+                           </svg>`);
+                
+                    const img = document.createElement("img");
+                    img.className = "video-thumb";
+                    img.src = thumbSrc;
+                
+                    const info = document.createElement("div");
+                    info.className = "video-info";
+                
+                    const titleText = video.title || "Untitled Video";
+                    const title = document.createElement("div");
+                    title.className = "video-title";
+                    title.textContent = titleText;
+                
+                    const creator = video?.video?.creator || "Unknown Creator";
+                    const publisher = video?.video?.publisher || "Unknown Platform";
+                
+                    const meta = document.createElement("div");
+                    meta.className = "video-meta";
+                    meta.textContent = `${creator} • ${publisher}`;
+                
+                    info.appendChild(title);
+                    info.appendChild(meta);
+                
+                    card.appendChild(img);
+                    card.appendChild(info);
+                
+                    container.appendChild(card);
+                });
             } catch (error) {
-                console.error('Error loading images:', error);
-                results.innerHTML = '<p>Error loading images. Please try again.</p>';
+                console.error('Error loading search results:', error);
+                document.getElementById("results").innerHTML = '<p>Error loading search results. Please try again.<br>' + error + '</p>';
             }
         })();
         
@@ -395,11 +552,15 @@
         if (query) {
             document.title = query + " | nilch";
             document.getElementById('searchInput').value = query;
+            document.getElementById('imagesTab').href = 'images.html?q=' + encodeURIComponent(query);
             document.getElementById('webTab').href = 'results.html?q=' + encodeURIComponent(query);
-            document.getElementById('videosTab').href = 'videos.html?q=' + encodeURIComponent(query);
             document.getElementById('mapsTab').href = 'https://duck.com/?iaxm=maps&q=' + encodeURIComponent(query);
         }
         
+        if (document.getElementById('searchInput').value.trim()) {
+            matchBang(query);
+        }
+
         function toggleSafeSearch() {
             const urlParams = new URLSearchParams(window.location.search);
             const current = urlParams.get('safe') || 'strict';
@@ -417,4 +578,3 @@
         })();
     </script>
 </body>
-</html>
