@@ -26,10 +26,10 @@ def make_brave_request(url, params):
         except RateLimitError:
             continue
 
-def get_web_results(query: str, safe_search: str, is_videos: str):
+def get_web_results(query: str, safe_search: str, is_videos: str, page: int):
     result_type = "videos" if is_videos else "web"
     url = "https://api.search.brave.com/res/v1/" + result_type + "/search"
-    params = { "q": query, "safesearch": safe_search }
+    params = { "q": query, "safesearch": safe_search, "count": 10, "offset": page }
     response = make_brave_request(url, params)
     if response != None and response.status_code == 200:
         if (is_videos):
@@ -114,11 +114,13 @@ def results():
     query = request.args.get("q")
     safe_search = request.args.get("safe")
     videos = True if request.args.get("videos") == "true" else False
+    page = request.args.get("page")
+    page = page if page != None else 0
     if (query == None):
         return "noquery"
     if (safe_search == None):
         safe_search = "strict"
-    results = get_web_results(query, safe_search, videos)
+    results = get_web_results(query, safe_search, videos, page)
     if (results == None):
         return "noresults"
     if (not videos):
@@ -146,7 +148,3 @@ def images():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-
-
