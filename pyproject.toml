@@ -13,4 +13,4 @@ dependencies = [
     "uvicorn[standard]>=0.40.0",
 ]
 [project.scripts]
-serve = "app.cli:main"
+serve = "backend.cli:main"
