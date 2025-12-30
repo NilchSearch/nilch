@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="icon" type="image/x-icon" href="favicon.png">
@@ -13,7 +14,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             background-color: #0a0a0a;
@@ -27,12 +28,12 @@
             padding-bottom: 15vh;
             transition: background-color 0.3s, color 0.3s;
         }
-        
+
         body.light-mode {
             background-color: #ffffff;
             color: #1a1a1a;
         }
-        
+
         .theme-toggle {
             position: absolute;
             top: 20px;
@@ -46,21 +47,21 @@
             font-size: 0.875rem;
             transition: background-color 0.2s, border-color 0.2s;
         }
-        
+
         .theme-toggle:hover {
             background-color: #2a2a2a;
             border-color: #7c3aed;
         }
-        
+
         body.light-mode .theme-toggle {
             border-color: #7c3aed;
             color: #7c3aed;
         }
-        
+
         body.light-mode .theme-toggle:hover {
             background-color: #f3f4f6;
         }
-        
+
         .logo {
             font-size: 3.5rem;
             font-weight: 300;
@@ -69,21 +70,21 @@
             margin-bottom: 40px;
             transition: color 0.3s;
         }
-        
+
         body.light-mode .logo {
             color: #7c3aed;
         }
-        
+
         .search-container {
             width: 100%;
             max-width: 600px;
         }
-        
+
         .search-form {
             display: flex;
             gap: 8px;
         }
-        
+
         .search-box {
             flex: 1;
             padding: 16px 20px;
@@ -95,17 +96,17 @@
             outline: none;
             transition: border-color 0.2s, background-color 0.3s, color 0.3s;
         }
-        
+
         .search-box:focus {
             border-color: #7c3aed;
         }
-        
+
         body.light-mode .search-box {
             background-color: #ffffff;
             color: #1a1a1a;
             border-color: #7c3aed;
         }
-        
+
         .search-button {
             padding: 16px 24px;
             font-size: 16px;
@@ -116,22 +117,22 @@
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s, color 0.3s;
         }
-        
+
         .search-button:hover {
             background-color: #2a2a2a;
             border-color: #7c3aed;
         }
-        
+
         body.light-mode .search-button {
             background-color: #ffffff;
             color: #7c3aed;
             border-color: #7c3aed;
         }
-        
+
         body.light-mode .search-button:hover {
             background-color: #f3f4f6;
         }
-        
+
         .tagline {
             text-align: center;
             color: #6b7280;
@@ -139,7 +140,7 @@
             margin-top: 16px;
             transition: color 0.3s;
         }
-        
+
         body.light-mode .tagline {
             color: #6b7280;
         }
@@ -153,37 +154,40 @@
             font-size: 0.875rem;
             transition: color 0.3s;
         }
-        
+
         .footer-links a {
-            color: #6b7280; /* Matches your tagline color */
+            color: #6b7280;
+            /* Matches your tagline color */
             text-decoration: none;
             transition: color 0.2s;
         }
-        
+
         .footer-links a:hover {
-            color: #a78bfa; /* Matches your logo color */
+            color: #a78bfa;
+            /* Matches your logo color */
         }
-        
+
         /* Light Mode Footer colors */
         body.light-mode .footer-links a:hover {
             color: #7c3aed;
         }
-        
+
         /* Mobile: Hide 'Set as Default' */
         .desktop-only {
             display: none;
         }
-        
+
         /* Desktop: Show 'Set as Default' */
         @media (min-width: 768px) {
             .desktop-only {
                 display: inline;
             }
         }
-        
+
         [type="search"]::-webkit-search-cancel-button {
             -webkit-appearance: none;
-            background-color: #FFFFFF;;
+            background-color: #FFFFFF;
+            ;
             -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'><path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/></svg>");
             background-size: 20px 20px;
             height: 20px;
@@ -195,6 +199,7 @@
         }
     </style>
 </head>
+
 <body>
     <button class="theme-toggle" onclick="toggleTheme()"><i class="bi bi-moon"></i></button>
     <div class="logo">nilch</div>
@@ -202,7 +207,8 @@
         <form class="search-form" onsubmit="return handleSearch(event)">
             <input type="search" class="search-box" placeholder="Search..." id="searchInput" style="--color: #FFFFFF;">
             <button type="submit" class="search-button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <path d="m21 21-4.35-4.35"></path>
                 </svg>
@@ -216,7 +222,7 @@
             const body = document.body;
             const button = document.querySelector('.theme-toggle');
             body.classList.toggle('light-mode');
-            
+
             if (body.classList.contains('light-mode')) {
                 button.innerHTML = '<i class="bi bi-sun"></i>';
                 localStorage.setItem('theme', 'light');
@@ -225,13 +231,13 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-        
+
         // Load saved theme
         if (localStorage.getItem('theme') === 'light' || window.matchMedia('(prefers-color-scheme: light)').matches) {
             document.body.classList.add('light-mode');
             document.querySelector('.theme-toggle').textContent = '<i class="bi bi-sun"></i>';
         }
-        
+
         function handleSearch(e) {
             e.preventDefault();
             const query = document.getElementById('searchInput').value.trim();
@@ -240,15 +246,17 @@
                 if (bangMatch) {
                     const cmd = bangMatch[1];
                     const search = bangMatch[2] || "";
-                    const result = bangs.find(item => item.t === cmd);
-                    if (result !== undefined) {
-                        if (search == "") {
-                            window.location.href = "https://" + result.d;
-                        } else {
-                            const querySymbol = "{" + "{" + "{s}" + "}" + "}";
-                            window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
+                    if (typeof bangs !== 'undefined') {
+                        const result = bangs.find(item => item.t === cmd);
+                        if (result !== undefined) {
+                            if (search == "") {
+                                window.location.href = "https://" + result.d;
+                            } else {
+                                const querySymbol = "{" + "{" + "{s}" + "}" + "}";
+                                window.location.href = result.u.replace(querySymbol, encodeURIComponent(search));
+                            }
+                            return false;
                         }
-                        return false;
                     }
                 }
                 window.location.href = 'results.html?q=' + encodeURIComponent(query);
@@ -262,4 +270,5 @@
         <a href="default.html" class="desktop-only">Set as Default</a>
     </div>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <meta charset="UTF-8">
@@ -11,25 +12,27 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
             background-color: #0a0a0a;
-            color: #e5e7eb; /* Slightly brighter text for readability */
+            color: #e5e7eb;
+            /* Slightly brighter text for readability */
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 80px 20px; /* Top padding for space */
+            padding: 80px 20px;
+            /* Top padding for space */
             transition: background-color 0.3s, color 0.3s;
         }
-        
+
         body.light-mode {
             background-color: #ffffff;
             color: #374151;
         }
-        
+
         /* Theme Toggle Styling */
         .theme-toggle {
             position: absolute;
@@ -44,12 +47,12 @@
             font-size: 0.875rem;
             transition: background-color 0.2s, border-color 0.2s;
         }
-        
+
         .theme-toggle:hover {
             background-color: #2a2a2a;
             border-color: #7c3aed;
         }
-        
+
         body.light-mode .theme-toggle {
             border-color: #7c3aed;
             color: #7c3aed;
@@ -58,7 +61,8 @@
         /* Content Container */
         .content-wrapper {
             width: 100%;
-            max-width: 650px; /* Optimal reading width */
+            max-width: 650px;
+            /* Optimal reading width */
         }
 
         .back-link {
@@ -124,18 +128,22 @@
         }
     </style>
 </head>
+
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
 
     <div class="content-wrapper">
         <a href="/" class="back-link">← Back to Search</a>
-        
+
         <h1>Set nilch as your default search engine</h1>
-        <p>Most browsers on mobile currently do not let you set a default search engine besides a few pre-set options, so this is mostly for desktop. However, you can set nilch as your default search engine on Firefox mobile.</p>
+        <p>Most browsers on mobile currently do not let you set a default search engine besides a few pre-set options,
+            so this is mostly for desktop. However, you can set nilch as your default search engine on Firefox mobile.
+        </p>
         <h2>Google Chrome (and other Chromium-based browsers)</h2>
         <ul>
             <li>Enter your browser settings</li>
-            <li>Go to the <b>Search engine</b> section (you may need to first press the three lines in the top left corner)</li>
+            <li>Go to the <b>Search engine</b> section (you may need to first press the three lines in the top left
+                corner)</li>
             <li>Click <b>Manage search engines and site search</b></li>
             <li>Scroll down to <b>Site search</b> and click <b>Add</b></li>
             <li>Type <b>nilch</b> in the <b>name</b> and <b>shortcut</b> fields</li>
@@ -150,7 +158,8 @@
             <li>Scroll down to <b>Search Shortcuts</b> and click <b>Add</b></li>
             <li>Type <b>nilch</b> in the <b>Search engine name</b> field</li>
             <li>Type <b>https://nilch.org/results?q=%s</b> in the <b>URL</b> field and click <b>Save Engine</b></li>
-            <li>Scroll back up to the start of the <b>Search</b> section, click the <b>Default Search Engine</b> dropdown (it will likely currently say <b>Google</b>, and click <b>nilch</b></li>
+            <li>Scroll back up to the start of the <b>Search</b> section, click the <b>Default Search Engine</b>
+                dropdown (it will likely currently say <b>Google</b>, and click <b>nilch</b></li>
         </ul>
         <div class="footer-links">
             <a href="https://buymeacoffee.com/nilch">Donate</a>
@@ -163,7 +172,7 @@
             const body = document.body;
             const button = document.querySelector('.theme-toggle');
             body.classList.toggle('light-mode');
-            
+
             if (body.classList.contains('light-mode')) {
                 button.textContent = 'Dark Mode';
                 localStorage.setItem('theme', 'light');
@@ -172,7 +181,7 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-        
+
         // Load saved theme
         if (localStorage.getItem('theme') === 'light') {
             document.body.classList.add('light-mode');
@@ -180,4 +189,5 @@
         }
     </script>
 </body>
+
 </html>
