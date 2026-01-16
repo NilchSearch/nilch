@@ -583,7 +583,10 @@
                     titleDiv.className = 'result-title';
                     const link = document.createElement('a');
                     link.href = searchResults[result].href;
-                    link.textContent = searchResults[result].title;
+                    const rawTitle = searchResults[result].title;
+                    link.textContent = rawTitle.length > 60
+                      ? rawTitle.slice(0, 60) + "..." 
+                      : rawTitle;
                     titleDiv.appendChild(link);
                     
                     const urlDiv = document.createElement('div');
@@ -601,7 +604,10 @@
                     
                     const snippetDiv = document.createElement('div');
                     snippetDiv.className = 'result-snippet';
-                    snippetDiv.innerHTML = searchResults[result].body;
+                    const rawDescription = searchResults[result].body;
+                    snippetDiv.innerHTML = rawDescription.length > 300 
+                      ? rawDescription.slice(0, 300) + "..." 
+                      : rawDescription;
                     
                     if (searchResults[result].page_age) {
                         const dateDiv = document.createElement('div');
