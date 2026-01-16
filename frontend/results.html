@@ -303,9 +303,11 @@
 
         .safe-container {
             margin-bottom: 16px;
+            display: flex;
+            gap: 8px;
         }
         
-        .safe-toggle {
+        .safe-toggle, .donate-button {
             padding: 6px 12px;
             border: 2px solid #4c1d95;
             border-radius: 6px;
@@ -314,19 +316,21 @@
             cursor: pointer;
             font-size: 0.875rem;
             transition: background-color 0.2s, border-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
         }
         
-        .safe-toggle:hover {
+        .safe-toggle:hover, .donate-button:hover {
             background-color: #2a2a2a;
             border-color: #7c3aed;
         }
         
-        body.light-mode .safe-toggle {
+        body.light-mode .safe-toggle, body.light-mode .donate-button {
             border-color: #7c3aed;
             color: #7c3aed;
         }
         
-        body.light-mode .safe-toggle:hover {
+        body.light-mode .safe-toggle:hover, body.light-mode .donate-button:hover {
             background-color: #f3f4f6;
         }
 
@@ -363,13 +367,13 @@
         
         .pagination {
             display: flex;
-            flex-wrap: wrap;      /* ⬅ ENABLE WRAPPING */
+            flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
             row-gap: 14px;
             list-style: none;
             max-width: 100%;
-            padding: 0 10px;      /* little side breathing room */
+            padding: 0 10px;
         }
         
         .page-btn {
@@ -379,7 +383,7 @@
             color: #a78bfa;
             text-decoration: none;
             font-size: 0.9rem;
-            white-space: nowrap;  /* prevents numbers from breaking */
+            white-space: nowrap;
             transition: background-color 0.2s, border-color 0.2s;
         }
         
@@ -394,7 +398,6 @@
             color: white;
         }
         
-        /* Light mode support */
         body.light-mode .page-btn {
             border-color: #7c3aed;
             color: #7c3aed;
@@ -434,6 +437,7 @@
         </div>
         <div class="safe-container">
             <button class="safe-toggle" onclick="toggleSafeSearch()">Safe Search: On</button>
+            <a href="https://buymeacoffee.com/nilch" class="donate-button">Donate</a>
         </div>
         <div class="infobox" id="infobox">
             <div class="infobox-title" id="infobox-title"></div>
@@ -565,7 +569,7 @@
                         window.location.url = window.location.url + "&failed=true";
                     }
                 }
-                const resultsData = JSON.parse(resultsResponse); // Parse the JSON string
+                const resultsData = JSON.parse(resultsResponse);
                 const searchResults = resultsData.results;
                 const infoboxData = (resultsData.infobox == "null") ? null : resultsData.infobox;
                 const results = document.getElementById("results");
@@ -575,7 +579,6 @@
                     const resultDiv = document.createElement('div');
                     resultDiv.className = 'result';
                     
-                    // Construct title
                     const titleDiv = document.createElement('div');
                     titleDiv.className = 'result-title';
                     const link = document.createElement('a');
@@ -586,19 +589,16 @@
                     const urlDiv = document.createElement('div');
                     urlDiv.className = 'result-url';
                     
-                    // Favicon
                     const favicon = document.createElement('img');
                     favicon.className = 'result-favicon';
                     let urlObj = new URL(searchResults[result].href);
                     favicon.src = "https://icons.duckduckgo.com/ip3/" + urlObj.hostname + ".ico";
                     urlDiv.appendChild(favicon);
                     
-                    // URL
                     const urlText = document.createElement('span');
                     urlText.textContent = searchResults[result].href;
                     urlDiv.appendChild(urlText);
                     
-                    // Construct description
                     const snippetDiv = document.createElement('div');
                     snippetDiv.className = 'result-snippet';
                     snippetDiv.innerHTML = searchResults[result].body;
@@ -610,7 +610,6 @@
                         resultDiv.appendChild(dateDiv);
                     }
 
-                    // And append
                     resultDiv.appendChild(titleDiv);
                     resultDiv.appendChild(urlDiv);
                     resultDiv.appendChild(snippetDiv);
@@ -705,3 +704,4 @@
         })();
     </script>
 </body>
+</html>

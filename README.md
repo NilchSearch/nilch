@@ -2,7 +2,7 @@
 
 A not-for-profit-style search engine with no ads, no AI, and all DuckDuckGo bangs. See [nilch.org](https://nilch.org) and try it out!
 
-nilch uses the Brave search API internally for results.
+nilch currently gets its results from other engines, however a new index and query engine is in the works.
 
 ## Code structure
 
