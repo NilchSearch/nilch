@@ -1,18 +1,16 @@
 import requests
+from ddgs import DDGS
 import json
 import re
 from flask import Flask, jsonify, request, render_template, send_file
-
-BRAVE_SEARCH_API_KEYS = [] # Add your keys (can have multiple)
-
-BRAVE_SEARCH_API_HEADERS = {
-    "Accept": "application/json",
-    "Accept-Encoding": "gzip",
-    "X-Subscription-Token": "setme" # Set later by the calling function
-}
+from flask_cors import CORS
 
 WIKIPEDIA_API_HEADERS = {
     "User-Agent": "nilch/1.0 (jake.stbu@gmail.com)"
+}
+
+DDG_API_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 }
 
 recent_searches = []
@@ -48,42 +46,34 @@ def check_for_recent_search(query: str, safe_search: str, is_videos: str, page: 
             return search.get("results")
     return None
 
-def make_brave_request(url, params):
-    for key in BRAVE_SEARCH_API_KEYS:
-        headers = BRAVE_SEARCH_API_HEADERS
-        headers["X-Subscription-Token"] = key
-        try:
-            response = requests.get(url, headers=BRAVE_SEARCH_API_HEADERS, params=params)
-            if response.status_code == 200:
-                return response
-        except RateLimitError:
-            continue
-
 def get_web_results(query: str, safe_search: str, is_videos: str, page: int):
+    if safe_search == "strict":
+        safe_search = "on"
+    else:
+        safe_search = "off"
     recent = check_for_recent_search(query, safe_search, is_videos, page)
     if (recent != None):
-        print("returning from cache!")
         return recent
-    print("original search!")
     result_type = "videos" if is_videos else "web"
-    url = "https://api.search.brave.com/res/v1/" + result_type + "/search"
-    params = { "q": query, "safesearch": safe_search, "count": 10, "offset": page }
-    response = make_brave_request(url, params)
-    if response != None and response.status_code == 200:
+    try:
         if (is_videos):
-            return add_recent_search(query, safe_search, is_videos, page, response.json()["results"])
+            results = DDGS().videos(query=query, max_results=10+int(page)*10, backend="bing", safesearch=safe_search)[int(page)*10:]
+            print(results)
+            return add_recent_search(query, safe_search, is_videos, page, results)
         else:
-            return add_recent_search(query, safe_search, is_videos, page, response.json()["web"]["results"])
+            results = DDGS().text(query=query, max_results=10+int(page)*10, backend="bing", safesearch=safe_search)[int(page)*10:]
+            return add_recent_search(query, safe_search, is_videos, page, results)
+    except Exception:
+        return []
     return None
 
 def get_img_results(query: str, safe_search: str):
-    url = "https://api.search.brave.com/res/v1/images/search"
-    params = { "q": query, "safesearch" : safe_search }
-    response = make_brave_request(url, params)
-    if response != None and response.status_code == 200:
-        results = response.json()["results"]
-        return [{"url": result["url"], "img": result["thumbnail"]["src"]} for result in results]
-    return None
+    if safe_search == "strict":
+        safe_search = "on"
+    else:
+        safe_search = "off"
+    results = DDGS().images(query=query, max_results=200, backend="bing", safesearch=safe_search)
+    return results
 
 def get_infobox(web_results, query):
     # Check if the user is trying to get a maths equation done
@@ -132,7 +122,7 @@ def get_infobox(web_results, query):
                 "infotype": "definition"}
     # If one of the first 3 results are a wikipedia article, return the first page of the article
     for i in range(min(3, len(web_results))):
-        if "wikipedia.org" in web_results[i]["url"]:
+        if "wikipedia.org" in web_results[i]["href"]:
             formatted_title = web_results[i]["title"].split(" - Wikipedia")[0].replace(" ", "_")
             url = "https://en.wikipedia.org/api/rest_v1/page/summary/" + formatted_title
             response = requests.get(url, headers=WIKIPEDIA_API_HEADERS)
@@ -146,6 +136,7 @@ def get_infobox(web_results, query):
     return None # No infobox
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route("/api/search")
 def results():

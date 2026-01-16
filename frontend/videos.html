@@ -498,11 +498,12 @@
         const page = parseInt(urlParams.get('page') || "0");
         
         async function getUrlContents(url) {
-            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
-            const response = await fetch(proxyUrl + encodeURIComponent(url));
+//            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+//            const response = await fetch(proxyUrl + encodeURIComponent(url));
+            const response = await fetch(url);
             return await response.text();
         }
-        
+
         function toggleTheme() {
             const body = document.body;
             const button = document.querySelector('.theme-toggle');
@@ -597,12 +598,12 @@
                 resultsData.forEach(video => {
                     const card = document.createElement("a");
                     card.className = "video-card";
-                    card.href = video.url || "#";
+                    card.href = video.content || "#";
                     card.target = "_blank";
                 
                     // Thumbnail (safe fallback)
-                    const thumbSrc = video?.thumbnail?.src 
-                        ? video.thumbnail.src 
+                    const thumbSrc = video.images.large
+                        ? video.images.large
                         : "data:image/svg+xml;charset=UTF-8," +
                           encodeURIComponent(`<svg width='160' height='90' xmlns='http://www.w3.org/2000/svg'>
                               <rect width='160' height='90' fill='#333'/>
@@ -621,8 +622,8 @@
                     title.className = "video-title";
                     title.textContent = titleText;
                 
-                    const creator = video?.video?.creator || "Unknown Creator";
-                    const publisher = video?.video?.publisher || "Unknown Platform";
+                    const creator = video.uploader || "Unknown Creator";
+                    const publisher = video.publisher || "Unknown Platform";
                 
                     const meta = document.createElement("div");
                     meta.className = "video-meta";

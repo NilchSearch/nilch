@@ -318,8 +318,9 @@
         const results = document.getElementById("results");
         
         async function getUrlContents(url) {
-            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
-            const response = await fetch(proxyUrl + encodeURIComponent(url));
+//            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+//            const response = await fetch(proxyUrl + encodeURIComponent(url));
+            const response = await fetch(url);
             return await response.text();
         }
         
@@ -386,11 +387,11 @@
                     const imageItem = document.createElement('div');
                     imageItem.className = 'image-item';
                     const link = document.createElement('a');
-                    link.href = searchResults[result].url;
+                    link.href = searchResults[result].href;
                     const imageWrapper = document.createElement('div');
                     imageWrapper.className = 'image-wrapper';
                     const img = document.createElement('img');
-                    img.src = searchResults[result].img;
+                    img.src = searchResults[result].image;
                     img.onerror = function() {
                         this.closest(".image-item").remove();
                     };

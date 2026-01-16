@@ -466,8 +466,9 @@
         const page = parseInt(urlParams.get('page') || "0");
         
         async function getUrlContents(url) {
-            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
-            const response = await fetch(proxyUrl + encodeURIComponent(url));
+//            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+//            const response = await fetch(proxyUrl + encodeURIComponent(url));
+            const response = await fetch(url);
             return await response.text();
         }
         
@@ -530,7 +531,9 @@
             for (let i = 0; i <= totalPages; i++) {
                 const li = document.createElement("li");
                 const a = document.createElement("a");
-                a.href = window.location.href + "&page=" + i;
+                let url = new URLSearchParams(window.location.search);
+                url.set("page", i);
+                a.href = "?" + url.toString();
                 a.textContent = i + 1;
                 a.className = "page-btn";
                 if (i === currentPage) {
@@ -586,18 +589,19 @@
                     // Favicon
                     const favicon = document.createElement('img');
                     favicon.className = 'result-favicon';
-                    favicon.src = searchResults[result].profile.img;
+                    let urlObj = new URL(searchResults[result].href);
+                    favicon.src = "https://icons.duckduckgo.com/ip3/" + urlObj.hostname + ".ico";
                     urlDiv.appendChild(favicon);
                     
                     // URL
                     const urlText = document.createElement('span');
-                    urlText.textContent = searchResults[result].url;
+                    urlText.textContent = searchResults[result].href;
                     urlDiv.appendChild(urlText);
                     
                     // Construct description
                     const snippetDiv = document.createElement('div');
                     snippetDiv.className = 'result-snippet';
-                    snippetDiv.innerHTML = searchResults[result].description;
+                    snippetDiv.innerHTML = searchResults[result].body;
                     
                     if (searchResults[result].page_age) {
                         const dateDiv = document.createElement('div');
