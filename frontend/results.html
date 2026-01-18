@@ -483,6 +483,15 @@
                 <option value="ru-RU">Russian</option>
                 <option value="zh-CN">Chinese</option>
             </select>
+            <select class="language-select" id="engineSelect" onchange="changeEngine()">
+                <option value="duckduckgo">DuckDuckGo</option>
+                <option value="brave">Brave</option>
+                <option value="mojeek">Mojeek</option>
+                <option value="bing">Bing</option>
+                <option value="google">Google</option>
+                <option value="yandex">Yandex</option>
+                <option value="yahoo">Yahoo</option>
+            </select>
             <a href="https://buymeacoffee.com/nilch" class="donate-button">Donate</a>
         </div>
         <div class="infobox" id="infobox">
@@ -516,6 +525,7 @@
         const encodedQuery = encodeURIComponent(query);
         const page = parseInt(urlParams.get('page') || "0");
         const language = urlParams.get('lang') || "en-GB";
+        const engine = urlParams.get('engine') || "duckduckgo";
         
         async function getUrlContents(url) {
 //            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
@@ -582,6 +592,14 @@
             urlParams.set('lang', newLang);
             window.location.href = window.location.pathname + '?' + urlParams.toString();
         }
+        
+        function changeEngine() {
+            const select = document.getElementById('engineSelect');
+            const newEngine = select.value;
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('engine', newEngine);
+            window.location.href = window.location.pathname + '?' + urlParams.toString();
+        }
 
         function createPagination(totalPages = 9, currentPage = page) {
             const container = document.createElement("div");
@@ -611,7 +629,7 @@
         (async function() {
             try {
                 const url = "https://unmappedstack.pythonanywhere.com/api/search?q=" + encodedQuery
-                                + "&safe=" + safeSearch + "&page=" + page + "&language=" + language;
+                                + "&safe=" + safeSearch + "&page=" + page + "&language=" + language + "&engine=" + engine;
                 const resultsResponse = await getUrlContents(url);
                 if (resultsResponse == "noquery") {
                     document.getElementById("results").innerHTML = '<p>There was an error, please try again: noquery</p>';
@@ -631,6 +649,10 @@
                 const results = document.getElementById("results");
                 const infobox = document.getElementById("infobox");
                 results.innerHTML = "";
+                if (searchResults.length == 0) {
+                    results.innerHTML = "There weren't any results found! Maybe try switching to another engine?";
+                    return;
+                }
                 for (let result = 0; result < searchResults.length; result++) {
                     const resultDiv = document.createElement('div');
                     resultDiv.className = 'result';
@@ -765,11 +787,17 @@
             safeButton.textContent = 'Safe Search: ' + (safeStatus === 'strict' ? 'On' : 'Off');
         })();
         
-        // Set the language dropdown to the current language
+        // Set dropdowns to current value
         (function updateLanguageSelect() {
             const select = document.getElementById('languageSelect');
             if (select) {
                 select.value = language;
+            }
+        })();
+        (function updateEngineSelect() {
+            const select = document.getElementById('engineSelect');
+            if (select) {
+                select.value = engine;
             }
         })();
     </script>

@@ -13,16 +13,19 @@ DDG_API_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 }
 
+models = ["bing", "brave", "google", "mojeek", "yahoo"]
+
 recent_searches = []
 
 # Returns results
-def add_recent_search(query: str, safe_search: str, is_videos: str, page: int, language: str, results):
+def add_recent_search(query: str, safe_search: str, is_videos: str, page: int, language: str, backend: str, results):
     recent_searches.append({
         "query": query,
         "safe": safe_search,
         "is_videos": is_videos,
         "page": page,
         "language": language,
+        "backend": backend,
         "results": results
     })
     if (len(recent_searches) >= 20):
@@ -30,13 +33,14 @@ def add_recent_search(query: str, safe_search: str, is_videos: str, page: int, l
     return results
 
 # Returns None if not in cache, otherwise search results
-def check_for_recent_search(query: str, safe_search: str, is_videos: str, language: str, page: int):
+def check_for_recent_search(query: str, safe_search: str, is_videos: str, language: str, page: int, backend: str):
     criteria = {
         "query": query,
         "safe": safe_search,
         "is_videos": is_videos,
         "language": language,
-        "page": page
+        "page": page,
+        "backed": backend
     }
     for search in recent_searches:
         match = all(
@@ -48,12 +52,12 @@ def check_for_recent_search(query: str, safe_search: str, is_videos: str, langua
             return search.get("results")
     return None
 
-def get_web_results(query: str, safe_search: str, is_videos: str, page: int, language: str):
+def get_web_results(query: str, safe_search: str, is_videos: str, page: int, language: str, backend: str):
     if safe_search == "strict":
         safe_search = "on"
     else:
         safe_search = "off"
-    recent = check_for_recent_search(query, safe_search, is_videos, language, page)
+    recent = check_for_recent_search(query, safe_search, is_videos, language, page, backend)
     if (recent != None):
         return recent
     result_type = "videos" if is_videos else "web"
@@ -61,10 +65,10 @@ def get_web_results(query: str, safe_search: str, is_videos: str, page: int, lan
         if (is_videos):
             results = DDGS().videos(query=query, max_results=10+int(page)*10, backend="bing", safesearch=safe_search)[int(page)*10:]
             print(results)
-            return add_recent_search(query, safe_search, is_videos, page, "en-UK", results)
+            return add_recent_search(query, safe_search, is_videos, page, "en-UK", "bing", results)
         else:
-            results = DDGS().text(query=query, max_results=10+int(page)*10, backend="bing", safesearch=safe_search, region=language)[int(page)*10:]
-            return add_recent_search(query, safe_search, is_videos, page, language, results)
+            results = DDGS().text(query=query, max_results=10+int(page)*10, backend=backend, safesearch=safe_search, region=language)[int(page)*10:]
+            return add_recent_search(query, safe_search, is_videos, page, language, backend, results)
     except Exception:
         return []
     return None
@@ -145,6 +149,9 @@ def results():
     query = request.args.get("q")
     safe_search = request.args.get("safe")
     language = request.args.get("language")
+    backend = request.args.get("backend")
+    if (backend == None):
+        backend = "mojeek"
     if (language == None):
         language = "en-GB"
     videos = True if request.args.get("videos") == "true" else False
@@ -154,7 +161,7 @@ def results():
         return "noquery"
     if (safe_search == None):
         safe_search = "strict"
-    results = get_web_results(query, safe_search, videos, page, language)
+    results = get_web_results(query, safe_search, videos, page, language, backend)
     if (results == None):
         return "noresults"
     if (not videos):
