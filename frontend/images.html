@@ -298,7 +298,7 @@
         <div class="safe-container">
             <button class="safe-toggle" onclick="toggleSafeSearch()">Safe Search: On</button>
         </div>
-
+        <span id="loading">Loading results, this might take a second...</span>
         <div class="image-grid" id="results">
             <!--<div class="image-item">
                 <a href="#">
@@ -401,6 +401,7 @@
                     const targetElement = document.getElementById('results');
                     targetElement.appendChild(imageItem);
                 }
+                document.getElementById("loading").innerText = "";
             } catch (error) {
                 console.error('Error loading images:', error);
                 results.innerHTML = '<p>Error loading images. Please try again.</p>';
