@@ -5,7 +5,7 @@ const failed = urlParams.get('failed') || "false";
 const encodedQuery = encodeURIComponent(query);
 const page = parseInt(urlParams.get('page') || "0");
 const language = urlParams.get('lang') || "en-GB";
-const engine = urlParams.get('engine') || "duckduckgo";
+const engine = urlParams.get('engine') || "mojeek";
 
 async function getUrlContents(url) {
     const response = await fetch(url);
